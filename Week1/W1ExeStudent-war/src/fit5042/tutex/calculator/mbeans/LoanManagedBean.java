@@ -16,6 +16,7 @@ import fit5042.tutex.repository.entities.Loan;
  * @create time：4 Aug 2020 3:37:07 pm
  * @desc:
  */
+// this is java bean
 @ManagedBean
 @SessionScoped
 public class LoanManagedBean implements Serializable {
@@ -41,6 +42,12 @@ public class LoanManagedBean implements Serializable {
 
 	public void setLoan(Loan loan) {
 		this.loan = loan;
+	}
+	public String calculate() {
+		String result;		
+		loan.setMonthlyPayment(calculator.calculate(getLoan().getPrinciple(), getLoan().getNumberOfYears(), getLoan().getInterestRate()));
+		result = Double.toString(loan.getMonthlyPayment());
+		return result;
 	}
 
 }
