@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"      
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<script src="/assets/js/jquery-2.1.4.min.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js" ></script>
+    	
+        <h:outputStylesheet library="css" name="bootstrap.min.css"></h:outputStylesheet>
+        <h:outputStylesheet library="js" name="bootstrap.min.js"></h:outputStylesheet>
+         <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.3.1/css/bootstrap.min.css"/>
+        <title>#{titleController.pageTitle}</title> 
+    </h:head>
+    <h:body>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+<script src="/assets/js/jquery-2.1.4.min.js"></script>
+<script src="../bootstrap/js/bootstrap.min.js" ></script>
+    
+  <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="1500">
+  <!-- Indicators -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+    <li data-target="#myCarousel" data-slide-to="3"></li>
+  </ol>
+
+  <!-- Wrapper for slides -->
+  <div class="carousel-inner" role="listbox">
+    <div class="item active">
+      <img src="edit.png" alt="Chania"/>
+      <div class="carousel-caption">
+        <h3>Monash</h3>
+        <p>Monash Real estate map.</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="backgroud.png" alt="Chania"/>
+      <div class="carousel-caption">
+        <h3>Notting hill</h3>
+        <p>Notting hill Real estate map.</p>
+      </div>
+    </div>
+
+    <div class="item">
+      <img src="detail.png" alt="Flower"/>
+      <div class="carousel-caption">
+        <h3>Clayton</h3>
+        <p>Clayton Real estate map.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Left and right controls -->
+  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+<!--     <div >
+    <img src="background.png" alt="image lost" width= "1500" height = "200"/>
+    </div> -->
+        <div class="container">
+            <div class="navbar navbar-inverse navbar-expand-sm bg-dark navbar-dark">
+                <div class="navbar-brand">
+                    #{titleController.pageTitle} - Property List
+                </div>
+            </div>
+            <h:form id="MyForm">
+                <table class="table table-bordered table-striped table-hover">
+                    <!-- For each property in properties ArrayList... --> 
+                    <tr>
+                            <td> 
+                                <h:outputLabel id="Id" value="Id"  />
+                            </td>
+                            <td> 
+                                <h:outputLabel id="Price" value="Price"  />
+                            </td>
+          
+                            <td> 
+                                <h:outputLabel id="Address" value="Address"/>
+                            </td>
+                            <td> 
+                                <h:outputLabel id="Option" value="Option"/>
+                            </td>
+                            
+                            
+                     </tr>
+                    
+                    <ui:repeat id="Myrepeat" value="#{propertyApplication.properties}"  var="property" varStatus="status"> 
+                        
+                        <tr onclick="document.getElementById('MyForm:principle').value = document.getElementById('MyForm:Myrepeat:#{status.index}:outPrice').textContent"> 
+                            <td>
+                                <h:outputText value="#{propertyApplication.properties.get(status.index).propertyId}" id="propertyID" /> 
+                                
+                            </td>
+                            
+                            <td> 
+                                <h:outputText id="outPrice" value="#{propertyApplication.properties.get(status.index).price}"  />
+                            </td>
+                            <td>
+                                <h:outputText id="outAddress" value="#{propertyApplication.properties.get(status.index).address}"></h:outputText>
+                            </td>
+                            <td>
+                                <h:commandLink value="View | " action="detail.xhtml" disabled="#{propertyApplication.properties.get(status.index).propertyId == null}">
+                                    <!-- pass the parameter to next page, the param name is propertyID, and the value is index + 1. 
+                                    You can get the value from next page using the indexController -->
+                                    <f:param name="propertyID" value="#{status.index + 1}"/>
+                                    
+                                </h:commandLink>
+                                <h:commandLink value="Edit | " action="edit.xhtml" disabled="#{propertyApplication.properties.get(status.index).propertyId == null}">
+                                    <!-- pass the parameter to next page, the param name is propertyID, and the value is index + 1. 
+                                    You can get the value from next page using the indexController -->
+                                    <f:param name="propertyID"  value="#{status.index + 1}"></f:param> 
+                                </h:commandLink>
+                                
+                                <h:commandLink value="Delete" action="#{removeProperty.removeProperty(propertyApplication.properties.get(status.index).propertyId)}" disabled="#{propertyApplication.properties.get(status.index).propertyId == null}">                                
+                                	<f:param name="propertyID" value="#{propertyController.propertyId+1}"/>
+                                	
+                                </h:commandLink>
+                                    
+                                <h:outputText value=" "/>
+                            </td>
+                            
+                        </tr> 
+
+                    </ui:repeat> 
+
+                </table>
+                
+                <div align = "center">
+                    <h:commandButton id="add" value="Add" action="add.xhtml" class="btn btn-success" >
+                    </h:commandButton>
+                
+                    <h:commandButton id="viewAll" value="View All" action="#{searchProperty.searchAll()}" class="btn btn-success" >
+                    </h:commandButton>
+                </div>
+                
+                
+            </h:form>
+        </div>
+    </h:body>
+</html>
+
