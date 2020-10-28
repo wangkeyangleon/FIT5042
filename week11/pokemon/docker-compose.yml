@@ -1,0 +1,36 @@
+version: '3'
+services:
+  mysql-docker-container:
+    image: mysql:latest
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: tutorial
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: db
+    restart: always
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      - MYSQL_ROOT_PASSWORD=root123
+      - MYSQL_DATABASE=spring_app_db
+      - MYSQL_USER=fit5042
+      - MYSQL_PASSWORD=fit5042
+    volumes:
+      - /data/mysql
+  pokemon:
+    image: 080505737493.dkr.ecr.us-east-2.amazonaws.com/lecdemo
+    logging:
+      driver: awslogs
+      options:
+        awslogs-group: tutorial
+        awslogs-region: us-east-2
+        awslogs-stream-prefix: app
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    environment:
+      - WAIT_HOSTS=127.0.0.1:3306
+    ports:
+      - 8080:8080
+    volumes:
+      - /data/spring-boot-app

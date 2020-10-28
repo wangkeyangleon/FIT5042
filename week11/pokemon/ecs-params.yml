@@ -1,0 +1,27 @@
+version: 1
+task_definition:
+  services:
+    mysql-docker-container:
+      cpu_limit: 256
+      mem_limit: 1GB
+    spring-boot-jpa-app:
+      cpu_limit: 256
+      mem_limit: 1GB
+  ecs_network_mode: awsvpc
+  task_execution_role: ecsTaskExecutionRole2
+  task_size:
+    mem_limit: 1GB
+    cpu_limit: 256
+run_params:
+  network_configuration:
+    awsvpc_configuration:
+      subnets:
+        - "subnet-0a74b41b4fea2a756"
+        - "subnet-0d56810b2a6c77ed0"
+      security_groups:
+        - "sg-04207f3081d48cecb"
+      assign_public_ip: ENABLED
+    task_placement:
+      strategy:
+        - type: binpack
+        - field: memory
